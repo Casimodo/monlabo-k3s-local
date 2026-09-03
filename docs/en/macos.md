@@ -10,8 +10,30 @@ Install Homebrew from [brew.sh](https://brew.sh) if needed, then run:
 
 ```bash
 brew install colima docker kubectl helm jq derailed/k9s/k9s
-colima start --kubernetes --cpus 4 --memory 6 --disk 30
+unalias kubectl 2>/dev/null || true
+unset -f kubectl 2>/dev/null || true
+hash -r
+command -v kubectl
+kubectl version --client
 openssl version
+```
+
+The `command -v kubectl` command must print `/opt/homebrew/bin/kubectl` on an Apple Silicon Mac or `/usr/local/bin/kubectl` on an Intel Mac. It must not print a path containing `.rd/bin`, which belongs to Rancher Desktop.
+
+### If `kubectl` still points to `.rd/bin`
+
+Find the old Rancher Desktop configuration:
+
+```bash
+grep -nH -E '\.rd/bin|alias kubectl' ~/.bash_profile ~/.bashrc ~/.profile ~/.zprofile ~/.zshrc 2>/dev/null || true
+```
+
+Open each reported file, remove the line containing `.rd/bin` or the old `kubectl` alias, then close and reopen the terminal. Resume this guide at the `brew install` command. Do not continue while `command -v kubectl` still points to `.rd/bin`.
+
+Then start K3s:
+
+```bash
+colima start --kubernetes --cpus 4 --memory 6 --disk 30
 ```
 
 Colima normally creates a context named `colima`. Rename it to enable the repository safety checks:
