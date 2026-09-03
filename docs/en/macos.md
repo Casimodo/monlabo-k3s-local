@@ -33,7 +33,7 @@ Open each reported file, remove the line containing `.rd/bin` or the old `kubect
 Then start K3s:
 
 ```bash
-colima start --kubernetes --cpus 4 --memory 6 --disk 30
+colima start --kubernetes --kubernetes-version v1.34.11+k3s1 --cpus 4 --memory 6 --disk 30
 ```
 
 Colima normally creates a context named `colima`. Rename it to enable the repository safety checks:
@@ -66,7 +66,22 @@ The `connect.sh` commands expose Vault and MariaDB locally on the Mac. A macOS-c
 colima stop
 colima start
 kubectl config use-context k3s-local
+kubectl cluster-info
 ```
+
+### If a script reports "local cluster is unreachable"
+
+This message can appear when Colima is running but K3s did not finish starting correctly. Do not uninstall everything. First perform a non-destructive restart:
+
+```bash
+colima stop
+colima start
+kubectl config use-context k3s-local
+kubectl cluster-info
+./scripts/validate.sh
+```
+
+Resume deployment only after both `kubectl cluster-info` and `./scripts/validate.sh` succeed. The `colima delete --data` command is only necessary if this restart still fails; it destroys the workloads and volumes in the VM.
 
 ## 🧹 Uninstall cleanly
 
@@ -74,7 +89,7 @@ This operation destroys all workloads and volumes in the Colima VM. Run the rese
 
 ```bash
 ./reset/reset.sh --all
-colima delete --force
+colima delete --data --force
 kubectl config delete-context k3s-local
 kubectl config delete-cluster colima
 brew uninstall colima docker kubectl helm jq derailed/k9s/k9s
