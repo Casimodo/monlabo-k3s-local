@@ -1,0 +1,7 @@
+{
+  "diagnostics.globals": [
+    "fx_version",
+    "game",
+    "server_script"
+  ]
+}

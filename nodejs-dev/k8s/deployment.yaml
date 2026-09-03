@@ -1,0 +1,63 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nodejs-dev
+  labels:
+    app.kubernetes.io/name: nodejs-dev
+    app.kubernetes.io/managed-by: k8s-local
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: nodejs-dev
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: nodejs-dev
+        app.kubernetes.io/managed-by: k8s-local
+    spec:
+      initContainers:
+        - name: copy-source
+          image: node:22.18-alpine
+          command: [sh, -c, cp -R /source/. /app/]
+          volumeMounts:
+            - name: source
+              mountPath: /source
+            - name: app
+              mountPath: /app
+      containers:
+        - name: nodejs
+          image: node:22.18-alpine
+          imagePullPolicy: IfNotPresent
+          workingDir: /app
+          command: [sh, -c, npm ci && npm run dev]
+          ports:
+            - name: http
+              containerPort: 3000
+          env:
+            - name: NODE_ENV
+              value: development
+            - name: PORT
+              value: "3000"
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: http
+            initialDelaySeconds: 5
+            periodSeconds: 5
+          resources:
+            requests:
+              cpu: 50m
+              memory: 128Mi
+            limits:
+              cpu: 500m
+              memory: 512Mi
+          volumeMounts:
+            - name: app
+              mountPath: /app
+      volumes:
+        - name: source
+          configMap:
+            name: nodejs-dev-source
+        - name: app
+          emptyDir: {}

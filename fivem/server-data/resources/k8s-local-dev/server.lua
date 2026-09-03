@@ -1,0 +1,1 @@
+print("[k8s-local] Ressource FiveM de développement chargée")

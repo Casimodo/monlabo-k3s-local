@@ -1,0 +1,1 @@
+print("[k8s-local] Ressource RedM de développement chargée")
