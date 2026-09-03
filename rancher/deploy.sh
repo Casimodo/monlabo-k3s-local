@@ -11,7 +11,8 @@ load_json_config "$SCRIPT_DIR/.env.json" \
   replicas=RANCHER_REPLICAS \
   localPort=RANCHER_LOCAL_PORT
 
-NAMESPACE="k8s-local-rancher"
+NAMESPACE="cattle-system"
+LEGACY_NAMESPACE="k8s-local-rancher"
 CHART_VERSION="${RANCHER_CHART_VERSION:-2.15.1}"
 HOSTNAME="${RANCHER_HOSTNAME:-127.0.0.1.sslip.io}"
 REPLICAS="${RANCHER_REPLICAS:-1}"
@@ -19,6 +20,13 @@ REPLICAS="${RANCHER_REPLICAS:-1}"
 check_cluster
 require_command helm
 require_command openssl
+
+if helm status rancher -n "$LEGACY_NAMESPACE" >/dev/null 2>&1; then
+  echo "Erreur : une ancienne installation Rancher existe dans '$LEGACY_NAMESPACE'." >&2
+  echo "Exécutez $SCRIPT_DIR/delete.sh puis relancez $SCRIPT_DIR/deploy.sh." >&2
+  exit 1
+fi
+
 ensure_namespace "$NAMESPACE"
 
 if ! kubectl get secret rancher-bootstrap -n "$NAMESPACE" >/dev/null 2>&1; then

@@ -9,7 +9,7 @@ Rancher est plus lourd que `kubectl` ou `k9s`. Il est facultatif et utile lorsqu
 ## Ce que le module installe
 
 - Rancher `2.15.1` avec le chart Helm officiel ;
-- une seule réplique dans `k8s-local-rancher` ;
+- une seule réplique dans le namespace officiel `cattle-system` ;
 - aucun Ingress, Traefik ou cert-manager supplémentaire ;
 - un mot de passe bootstrap aléatoire dans un Secret Kubernetes ;
 - un accès HTTPS limité à `127.0.0.1`.
@@ -41,6 +41,12 @@ Le téléchargement et le premier démarrage peuvent prendre plusieurs minutes. 
 ```
 
 L'utilisateur initial est `admin`. Le mot de passe affiché sert uniquement à la première connexion; Rancher demande ensuite d'en définir un nouveau.
+
+Si Rancher refuse le mot de passe après une réinstallation, réinitialiser le compte `admin` et resynchroniser les Secrets locaux :
+
+```bash
+./rancher/credentials.sh --reset
+```
 
 ## Ouvrir l'interface
 
@@ -80,7 +86,7 @@ La release Helm et le namespace Rancher sont supprimés. Les autres modules rest
 ## Dépannage
 
 ```bash
-kubectl get pods -n k8s-local-rancher
-kubectl logs -n k8s-local-rancher deployment/rancher
-helm status rancher -n k8s-local-rancher
+kubectl get pods -n cattle-system
+kubectl logs -n cattle-system deployment/rancher
+helm status rancher -n cattle-system
 ```

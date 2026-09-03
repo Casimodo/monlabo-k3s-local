@@ -7,5 +7,8 @@ source "$SCRIPT_DIR/../scripts/common.sh"
 
 check_cluster
 require_command helm
-helm uninstall rancher -n k8s-local-rancher --ignore-not-found --wait
-delete_namespace k8s-local-rancher
+
+for namespace in k8s-local-rancher cattle-system; do
+	helm uninstall rancher -n "$namespace" --ignore-not-found --wait
+	delete_namespace "$namespace"
+done
