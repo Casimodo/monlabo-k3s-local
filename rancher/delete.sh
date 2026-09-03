@@ -8,7 +8,11 @@ source "$SCRIPT_DIR/../scripts/common.sh"
 check_cluster
 require_command helm
 
-for namespace in k8s-local-rancher cattle-system; do
-	helm uninstall rancher -n "$namespace" --ignore-not-found --wait
-	delete_namespace "$namespace"
-done
+helm uninstall rancher -n k8s-local-rancher --ignore-not-found --wait
+delete_namespace k8s-local-rancher
+
+helm uninstall rancher -n cattle-system --ignore-not-found --wait
+kubectl delete apiservice v1.ext.cattle.io --ignore-not-found
+kubectl delete mutatingwebhookconfiguration rancher.cattle.io --ignore-not-found
+kubectl delete validatingwebhookconfiguration rancher.cattle.io --ignore-not-found
+delete_namespace cattle-system
