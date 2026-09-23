@@ -2,3 +2,9 @@
 *.log
 **/config.local.sh
 **/.env.json
+ai-generation/.venv/
+ai-generation/.runtime/
+ai-generation/outputs/images/*
+ai-generation/outputs/videos/*
+!ai-generation/outputs/images/.gitkeep
+!ai-generation/outputs/videos/.gitkeep

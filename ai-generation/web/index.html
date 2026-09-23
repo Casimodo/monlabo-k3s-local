@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="light">
+    <title>AI Generation Lab</title>
+    <link rel="stylesheet" href="/css/style.css">
+  </head>
+  <body>
+    <header class="topbar">
+      <div>
+        <p class="eyebrow">APPLE SILICON · LOCAL</p>
+        <h1>AI Generation Lab</h1>
+      </div>
+      <div class="status"><span class="status-dot"></span><span id="health-status">Connexion...</span></div>
+    </header>
+
+    <main>
+      <nav class="tabs" aria-label="Type de génération">
+        <button class="tab active" type="button" data-tab="image">IMAGE</button>
+        <button class="tab" type="button" data-tab="video">VIDÉO</button>
+      </nav>
+
+      <section id="image-panel" class="workspace">
+        <form id="image-form" class="controls">
+          <div class="field prompt-field">
+            <label for="prompt">Prompt</label>
+            <textarea id="prompt" maxlength="2000" required placeholder="Une vue cinématographique nocturne de Los Santos, rues mouillées, néons..."></textarea>
+            <span class="counter"><span id="prompt-count">0</span>/2000</span>
+          </div>
+
+          <div class="field">
+            <label for="negative-prompt">Negative prompt</label>
+            <input id="negative-prompt" value="Non pris en charge par Z-Image-Turbo" disabled>
+          </div>
+
+          <div class="field-grid">
+            <div class="field">
+              <label for="width">Largeur</label>
+              <select id="width"><option>512</option><option>768</option><option selected>1024</option><option>1280</option></select>
+            </div>
+            <div class="field">
+              <label for="height">Hauteur</label>
+              <select id="height"><option>512</option><option>768</option><option selected>1024</option><option>1280</option></select>
+            </div>
+            <div class="field">
+              <label for="steps">Étapes</label>
+              <input id="steps" type="number" min="1" max="50" value="9">
+            </div>
+            <div class="field">
+              <label for="seed">Seed</label>
+              <input id="seed" type="number" min="0" max="4294967295" placeholder="Aléatoire">
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="model">Modèle</label>
+            <select id="model"></select>
+          </div>
+
+          <button id="generate-button" class="primary" type="submit">
+            <span class="button-label">Générer l’image</span>
+            <span class="spinner" hidden></span>
+          </button>
+          <p id="form-message" class="message" role="status"></p>
+        </form>
+
+        <section class="result-stage" aria-live="polite">
+          <div id="empty-result" class="empty-result">
+            <div class="frame-mark"></div>
+            <p>Votre prochaine image apparaîtra ici.</p>
+          </div>
+          <div id="result" hidden>
+            <img id="result-image" alt="Résultat généré">
+            <div class="result-meta">
+              <dl id="result-details"></dl>
+              <a id="download-link" class="download" download>↓ Télécharger</a>
+            </div>
+          </div>
+        </section>
+      </section>
+
+      <section id="video-panel" class="video-panel" hidden>
+        <p class="eyebrow">PROVIDER DÉSACTIVÉ</p>
+        <h2>La vidéo attend sa validation matérielle.</h2>
+        <p>Le moteur ne sera activé qu’après un test fiable sur ce Mac, sans dépendance CUDA.</p>
+      </section>
+
+      <section class="gallery-section">
+        <div class="section-heading">
+          <div><p class="eyebrow">SORTIES LOCALES</p><h2>Dernières générations</h2></div>
+          <button id="refresh-gallery" class="icon-button" type="button" title="Actualiser la galerie" aria-label="Actualiser la galerie">↻</button>
+        </div>
+        <div id="gallery" class="gallery"></div>
+        <p id="empty-gallery" class="empty-gallery">Aucune génération enregistrée.</p>
+      </section>
+    </main>
+
+    <script src="/js/app.js" defer></script>
+  </body>
+</html>

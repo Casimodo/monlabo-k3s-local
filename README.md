@@ -51,6 +51,7 @@ Vérifier ensuite l'environnement :
 | FiveM | [Serveur GTA V classique](fivem/README.md) |
 | FiveM Enhanced | [Serveur GTA V Enhanced](fivem-enhanced/README.md) |
 | RedM | [Serveur Red Dead Redemption 2](redm/README.md) |
+| AI Generation | [Génération locale sur Apple Silicon](ai-generation/README.md) |
 | Reset | [Nettoyage de l'environnement](reset/README.md) |
 
 ## 🗂️ Arborescence
@@ -76,6 +77,7 @@ k8s-local/
 │   └── server-data/       Configuration et scripts Enhanced
 ├── redm/                  Serveur RedM pour Red Dead Redemption 2
 │   └── server-data/       Configuration et scripts RedM
+├── ai-generation/         Génération native d'images sur Apple Silicon
 └── reset/                 Nettoyage sélectif ou complet de l'environnement
 ```
 
@@ -101,6 +103,7 @@ Le module `reset` n'a pas de configuration persistante : son option destructive 
 | FiveM | Développement GTA V classique | TCP/UDP `127.0.0.1:30120` | [Guide FiveM](fivem/README.md) |
 | FiveM Enhanced | Développement GTA V Enhanced | TCP/UDP `127.0.0.1:30121` | [Guide FiveM Enhanced](fivem-enhanced/README.md) |
 | RedM | Développement Red Dead Redemption 2 | TCP/UDP `127.0.0.1:30122` | [Guide RedM](redm/README.md) |
+| AI Generation | Images locales avec MLX et MFLUX | `http://127.0.0.1:8180` | [Guide AI Generation](ai-generation/README.md) |
 | Reset | Nettoyage de l'environnement | sans objet | [Guide Reset](reset/README.md) |
 
 ## ⚙️ Configuration JSON
@@ -147,4 +150,4 @@ Avant toute opération Kubernetes, les scripts vérifient :
 - une adresse d'API Kubernetes locale ;
 - l'accès effectif au cluster.
 
-Les modules Cfx refusent également un contexte Docker distant. Tous les tunnels et ports publiés écoutent uniquement sur `127.0.0.1`.
+Les modules Cfx refusent également un contexte Docker distant. AI Generation refuse toute adresse d'écoute autre que `127.0.0.1` ou `localhost`. Tous les tunnels et ports publiés écoutent uniquement sur l'interface locale.
