@@ -24,6 +24,15 @@ Installer K3s et les outils en suivant le guide du système utilisé :
 
 Les scripts attendent un contexte Kubernetes nommé `k3s-local` et refusent une API qui ne répond pas sur `127.0.0.1` ou `localhost`.
 
+Sur macOS, Colima doit être démarré avant d'utiliser un module, notamment après un redémarrage de la machine :
+
+```bash
+colima start
+kubectl config use-context k3s-local
+```
+
+Si le cluster reste inaccessible, suivre la section de dépannage du [guide macOS](docs/macos.md).
+
 Vérifier ensuite l'environnement :
 
 ```bash

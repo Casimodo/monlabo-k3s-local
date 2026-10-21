@@ -15,6 +15,8 @@ Development mode is not suitable for production. Vault data disappears when the 
 
 ## 🚀 Install
 
+The K3s cluster must be running first. On macOS, run `colima start`; see the [macOS guide](../docs/en/macos.md) if needed. Vault is self-contained and does not require any other module from this repository.
+
 ```bash
 ./vault/deploy.sh
 ```

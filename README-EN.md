@@ -24,6 +24,15 @@ Install K3s and the required tools by following the guide for your operating sys
 
 The scripts expect a Kubernetes context named `k3s-local` and reject any API server that is not available through `127.0.0.1` or `localhost`.
 
+On macOS, Colima must be running before using any module, especially after restarting the machine:
+
+```bash
+colima start
+kubectl config use-context k3s-local
+```
+
+If the cluster remains unavailable, follow the troubleshooting section in the [macOS guide](docs/en/macos.md).
+
 Then validate the environment:
 
 ```bash

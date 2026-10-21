@@ -15,6 +15,8 @@ Le mode développement n'est pas adapté à la production. Les données Vault di
 
 ## 🚀 Installer
 
+Le cluster K3s doit être démarré au préalable. Sur macOS, exécuter `colima start`; voir le [guide macOS](../docs/macos.md) en cas de doute. Vault est autonome et ne nécessite aucun autre module du dépôt.
+
 ```bash
 ./vault/deploy.sh
 ```
