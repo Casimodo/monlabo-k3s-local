@@ -41,6 +41,22 @@ Vérifier ensuite l'environnement :
 
 ## 📚 Documentation
 
+### Commits, secrets et releases
+
+Installer `pre-commit` (`brew install pre-commit` sur macOS ou `pipx install pre-commit`), puis activer le hook depuis la racine :
+
+```bash
+pre-commit install
+```
+
+Si un autre gestionnaire de hooks est déjà configuré, intégrer le contrôle sans écraser ses hooks. Gitleaks bloque les secrets détectés dans les changements indexés avant chaque commit. Son premier lancement télécharge l'outil ; un accès réseau est nécessaire. Ne pas contourner le hook. Si un secret a déjà été partagé, le révoquer et le retirer de l'historique : le supprimer du dernier fichier ne suffit pas.
+
+Dans Copilot, `/release X.Y.Z` prépare `VERSION` et les notes `RELEASE.md`, puis `/commit` prépare le journal et le commit après validation du lot indexé. Aucune de ces commandes ne crée le commit ou ne pousse le dépôt.
+
+Après le commit et le push, les CI GitLab et GitHub contrôlent les secrets de l'historique complet, la syntaxe Bash et les fichiers de release présents. Aucun job Sonar n'est utilisé. Les validations Kubernetes de `scripts/validate.sh` restent locales et nécessitent le cluster.
+
+Sur GitHub, un push sur la branche par défaut publie automatiquement la version préparée, uniquement après ces contrôles : tag `vX.Y.Z` et release avec les notes. Les pull requests et les autres branches ne publient rien. L'action utilise le `GITHUB_TOKEN` intégré avec le droit `contents: write`, sans jeton personnel. Configurer les protections de branche pour exiger le job `validate` avant fusion. Le fichier GitLab assure les contrôles, mais ne synchronise pas le dépôt vers GitHub.
+
 ### Installer la plateforme
 
 | Système | Installation et désinstallation |

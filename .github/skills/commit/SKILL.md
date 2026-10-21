@@ -69,9 +69,13 @@ Omettre une sous-section vide. Regrouper dans une même entrée les changements 
 ### 5. Valider le lot
 
 1. Exécuter `git diff --check`.
-2. Lancer les tests ou validations les plus ciblés disponibles pour les fichiers concernés.
-3. Réexaminer le diff après la mise à jour de `UPDATE.md`.
-4. Ne pas indexer automatiquement les fichiers sauf demande explicite. Distinguer clairement les changements indexés et non indexés.
+2. Vérifier que `pre-commit` est installé. Sinon, demander son installation (`brew install pre-commit` sur macOS ou `pipx install pre-commit`). Ne pas contourner ce contrôle.
+3. Vérifier `git config --get core.hooksPath` et les hooks existants. Si un gestionnaire de hooks est déjà configuré, demander comment intégrer Gitleaks sans l'écraser. Sinon, exécuter `pre-commit install` pour activer le contrôle avant chaque commit.
+4. Exécuter `pre-commit run gitleaks`. Ce hook contrôle uniquement les changements indexés. Si des fichiers retenus ne sont pas indexés, demander leur indexation explicite puis relancer le contrôle ; ne pas déclarer le lot validé avant cela. Ne jamais indexer automatiquement sans autorisation.
+5. En cas de secret détecté, bloquer la préparation du commit, afficher uniquement le chemin et la règle concernés, jamais la valeur. Demander de retirer le secret et de révoquer toute valeur déjà exposée. Ne pas utiliser `--no-verify`, `SKIP`, une baseline ou une exclusion pour passer le contrôle.
+6. Lancer les tests ou validations les plus ciblés disponibles pour les fichiers concernés.
+7. Si `/release` a préparé une version, inclure `VERSION` et `RELEASE.md` dans le même lot, avec les changements correspondants. Vérifier le numéro et les notes avant validation.
+8. Réexaminer le diff après la mise à jour de `UPDATE.md`. Distinguer clairement les changements indexés et non indexés. Après toute modification des fichiers retenus, demander leur réindexation puis relancer Gitleaks.
 
 ### 6. Préparer le message français
 

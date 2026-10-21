@@ -152,6 +152,18 @@ Then follow the **Uninstall** section in the [macOS](docs/en/macos.md), [Linux](
 
 ## 🔒 Local safety
 
+### Commits, secrets and releases
+
+Install `pre-commit` (`brew install pre-commit` on macOS or `pipx install pre-commit`), then run `pre-commit install` from the repository root. Do not overwrite an existing hook manager. Gitleaks checks staged changes before each commit; its first run downloads the tool and needs network access. Never bypass the hook. Revoke exposed secrets and remove them from history, not just from the current file.
+
+In Copilot, `/release X.Y.Z` prepares `VERSION` and `RELEASE.md`, then `/commit` prepares the changelog and commit after checking the staged changes. Neither command creates a commit or pushes the repository.
+
+GitLab and GitHub CI check secrets across the full history, Bash syntax and release files when present, without Sonar. Kubernetes checks in `scripts/validate.sh` remain local and require the cluster.
+
+After a push to the default GitHub branch, the workflow publishes the prepared `vX.Y.Z` tag and release notes only after validation succeeds. Pull requests and other branches never publish. Publication uses the built-in `GITHUB_TOKEN` with `contents: write`, not a personal token. Configure branch protection to require `validate` before merging. GitLab CI performs checks but does not mirror the repository to GitHub.
+
+### Cluster access
+
 Before any Kubernetes operation, the scripts verify:
 
 - the explicit kubeconfig file;

@@ -1,0 +1,32 @@
+stages:
+  - validate
+
+workflow:
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+    - if: '$CI_COMMIT_BRANCH && $CI_OPEN_MERGE_REQUESTS && $CI_PIPELINE_SOURCE == "push"'
+      when: never
+    - if: '$CI_COMMIT_BRANCH || $CI_COMMIT_TAG'
+
+gitleaks:
+  stage: validate
+  image:
+    name: zricethezav/gitleaks:v8.24.3
+    entrypoint: [""]
+  variables:
+    GIT_DEPTH: "0"
+  script:
+    - gitleaks git --redact --no-banner --log-opts="--all" .
+
+validate:
+  stage: validate
+  image: bash:5.2
+  script:
+    - |
+      set -euo pipefail
+      find . -name '*.sh' -not -path './.git/*' -print0 | while IFS= read -r -d '' script; do
+        bash -n "$script"
+      done
+      if [[ -e VERSION || -e RELEASE.md ]]; then
+        bash scripts/check-release.sh
+      fi

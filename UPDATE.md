@@ -2,6 +2,14 @@
 
 Ce journal recense les modifications majeures et les corrections significatives du projet.
 
+## 2026-10-21 13:51 CEST
+
+### Modifications majeures
+
+- Ajout de Gitleaks en pre-commit et dans les CI GitLab et GitHub pour bloquer les secrets détectés, sans job Sonar.
+- Intégration du contrôle des fichiers indexés dans `/commit`, sans commit ni push automatique.
+- Ajout du skill `/release X.Y.Z` pour préparer la version et les notes avant `/commit`, puis publier le tag et la release GitHub après validation du push sur la branche par défaut.
+
 ## 2026-10-21 11:40 CEST
 
 ### Modifications majeures
