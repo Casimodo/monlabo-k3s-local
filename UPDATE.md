@@ -2,6 +2,13 @@
 
 Ce journal recense les modifications majeures et les corrections significatives du projet.
 
+## 2026-10-21 14:15 CEST
+
+### Corrections
+
+- Migration des jobs de validation et de publication GitHub vers `actions/checkout@v5`, compatible avec Node.js 24, pour supprimer l'avertissement de dépréciation de Node.js 20 sans modifier les options de récupération et d'authentification.
+- Préparation de la release corrective `1.0.1` avec sa version et ses notes de publication.
+
 ## 2026-10-21 14:02 CEST
 
 ### Modifications majeures
