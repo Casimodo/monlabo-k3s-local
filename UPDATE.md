@@ -2,6 +2,12 @@
 
 Ce journal recense les modifications majeures et les corrections significatives du projet.
 
+## 2026-10-21 14:02 CEST
+
+### Modifications majeures
+
+- Préparation de la première release `1.0.0` avec le fichier `VERSION` et les notes `RELEASE.md`, couvrant les services locaux, les garde-fous et le parcours de publication GitHub.
+
 ## 2026-10-21 13:51 CEST
 
 ### Modifications majeures
