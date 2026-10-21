@@ -2,6 +2,12 @@
 
 Ce journal recense les modifications majeures et les corrections significatives du projet.
 
+## 2026-10-21 14:27 CEST
+
+### Corrections
+
+- Préparation de la release corrective `1.0.2` : mise à jour de `VERSION` et des notes de publication pour les garde-fous du pod MariaDB et son stockage éphémère.
+
 ## 2026-10-21 14:20 CEST
 
 ### Corrections
