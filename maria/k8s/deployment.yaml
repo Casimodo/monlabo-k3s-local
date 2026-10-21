@@ -18,6 +18,7 @@ spec:
         app.kubernetes.io/name: mariadb
         app.kubernetes.io/managed-by: k8s-local
     spec:
+      automountServiceAccountToken: false
       containers:
         - name: mariadb
           image: mariadb:11.4
@@ -66,9 +67,11 @@ spec:
             requests:
               cpu: 100m
               memory: 256Mi
+              ephemeral-storage: 128Mi
             limits:
               cpu: 500m
               memory: 1Gi
+              ephemeral-storage: 1Gi
           volumeMounts:
             - name: data
               mountPath: /var/lib/mysql

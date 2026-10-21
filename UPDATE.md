@@ -2,6 +2,13 @@
 
 Ce journal recense les modifications majeures et les corrections significatives du projet.
 
+## 2026-10-21 14:20 CEST
+
+### Corrections
+
+- Désactivation du montage automatique du jeton de compte de service du pod MariaDB, qui n'utilise pas l'API Kubernetes.
+- Ajout d'une demande de stockage éphémère de `128Mi` et d'une limite de `1Gi` au conteneur MariaDB, sans modifier son volume persistant de `5Gi`.
+
 ## 2026-10-21 14:15 CEST
 
 ### Corrections
